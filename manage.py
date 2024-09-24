@@ -6,7 +6,14 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'synthaize.settings')
+    # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'synthaize.settings')
+    environment = os.getenv('ENVIRONMENT', default='dev')
+    
+    if environment == 'prod':
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'synthaize.settings.prod')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'synthaize.settings.dev')
+        
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
