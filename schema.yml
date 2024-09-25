@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: SynthAIze API
+  version: 1.0.0
+  description: The **SynthAIze API** is a platform for managing AI models, datasets, and performance metrics with user authentication and role-based access control to streamline AI model deployment and evaluation.
+paths: {}
+components: {}
