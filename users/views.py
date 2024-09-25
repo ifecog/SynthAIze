@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password
 
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -26,7 +26,7 @@ class SignupView(generics.CreateAPIView):
         if User.objects.filter(email=data['email']).exists():
             return Response({'detail': 'Email already in use!'}, status=status.HTTP_400_BAD_REQUEST)
         
-        role = data.get('role', 'observer')
+        role = data.get('role', 'Observer')
         if role == 'Synthesist' and not data.get('bio'):
             return Response({'detail': 'Bio is required for Synthesists'}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -51,3 +51,28 @@ class SignupView(generics.CreateAPIView):
 
 class SigninView(TokenObtainPairView):
     serializer_class = SigninSerializer
+    
+    
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    
+
+class SynthesistListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    
+    def get_queryset(self):
+        return User.objects.filter(role='Synthesist')
+    
+    
+class ObserverListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    
+    def get_queryset(self):
+        return User.objects.filter(role='Observer')
+    
+    
+    
