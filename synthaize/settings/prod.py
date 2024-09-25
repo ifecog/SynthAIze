@@ -15,6 +15,16 @@ DATABASES = {
     }
 }
 
+
+# Static files settings
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'      
+
+# Media files settings
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+
 # Security settings
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True

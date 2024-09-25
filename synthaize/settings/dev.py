@@ -4,6 +4,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -14,3 +15,13 @@ DATABASES = {
         'PORT': config('DEV_DB_PORT', default='5432'),
     }
 }
+
+
+# Static files settings
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files settings
+MEDIA_ROOT = BASE_DIR / 'media'
