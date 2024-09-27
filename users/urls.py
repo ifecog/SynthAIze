@@ -11,6 +11,7 @@ from users.views import (
     UserDetailView,
     UserUpdateView,
     PasswordUpdateView,
+    UserDeleteView,
 )
 
 
@@ -18,6 +19,7 @@ urlpatterns = [
     path('', UserListView.as_view(), name='users'),
     path('<uuid:uuid>/', UserDetailView.as_view(), name='user-detail'),
     path('<uuid:uuid>/update/', UserUpdateView.as_view(), name='user-update'),
+    path('<uuid:uuid>/delete/', UserDeleteView.as_view(), name='user-delete'),
     path('change-password/', PasswordUpdateView.as_view(), name='password-change'),
     # Auth
     path('signup/', SignupView.as_view(), name='signup'),

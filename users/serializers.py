@@ -18,16 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
         
                 
     def get_name(self, obj):
-        name = ''
-         
-        try:
-            name = f'{obj.first_name} {obj.last_name}'
-            # name = obj.first_name + ' ' + obj.last_name
-            if not name:
-                return obj.email
-        except:
-            pass
-            
+        name = f'{obj.first_name} {obj.last_name}' if obj.first_name or obj.last_name else obj.email
         return name
         
         
@@ -37,10 +28,11 @@ class UserSerializer(serializers.ModelSerializer):
         
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only=True)
+    password = serializers.CharField(write_only=True)
     
     class Meta:
         model = get_user_model()
-        fields = ['uuid', 'name', 'email', 'role', 'isAdmin', 'token']
+        fields = ['uuid', 'first_name', 'last_name', 'email', 'role', 'bio', 'password', 'isAdmin', 'token']
         
         
     def get_token(self, obj):
@@ -69,10 +61,17 @@ class SigninSerializer(TokenObtainPairSerializer):
         
         data = super().validate(attrs)
         
-        serializer = UserSerializerWithToken(self.user).data
+        # serializer = UserSerializerWithToken(self.user).data
 
-        for key, value in serializer.items():
-            data[key] = value
+        # for key, value in serializer.items():
+        #     data[key] = value
+        
+        serializer = UserSerializerWithToken(user)
+        data['name'] = f'{serializer.data.get('first_name')} {serializer.data.get('last_name')}'
+        data['email'] = serializer.data.get('email')
+        data['role'] = serializer.data.get('role')
+        data['isAdmin'] = serializer.data.get('isAdmin')
+        data['token'] = serializer.data.get('token')
         
         return data
     

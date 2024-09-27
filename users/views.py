@@ -125,3 +125,16 @@ class PasswordUpdateView(generics.GenericAPIView):
         user.save()
         
         return Response({'detail': 'Password updated successfully!'}, status=status.HTTP_200_OK)
+    
+    
+class UserDeleteView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    lookup_field = 'uuid'
+    
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()
+        self.perform_destroy(user)
+        
+        return Response({'detail': 'User successfully deleted!'},status=status.HTTP_200_OK)

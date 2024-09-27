@@ -27,3 +27,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# python manage.py spectacular --color --file schema.yml
