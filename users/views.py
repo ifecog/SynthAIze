@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from users.emails import send_welcome_email
 from users.models import User
 from users.permissions import isAdminOrOwner
 from users.serializers import (
@@ -41,6 +42,8 @@ class SignupView(generics.CreateAPIView):
                 role=role,
                 password=make_password(data['password'])
             )
+            
+            send_welcome_email(user)
             
             serializer = self.get_serializer(user)
             
