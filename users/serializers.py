@@ -1,8 +1,10 @@
 from typing import Dict, Any
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, RefreshToken
 
 
@@ -52,6 +54,19 @@ class SigninSerializer(TokenObtainPairSerializer):
     
     
     def validate(self, attrs: Dict[str, Any]) -> Dict[str, str]:
+        email = attrs.get('email', None)
+        password = attrs.get('password', None)
+        
+        try:
+            user = get_user_model().objects.get(email=email)
+        except get_user_model().DoesNotExist:
+            raise AuthenticationFailed(detail=_('No account found with this email.'))
+        
+        user = authenticate(email=email, password=password)
+        if user is None:
+            raise AuthenticationFailed(detail=_('Incorrect password!'))
+        
+        
         data = super().validate(attrs)
         
         serializer = UserSerializerWithToken(self.user).data
@@ -60,3 +75,12 @@ class SigninSerializer(TokenObtainPairSerializer):
             data[key] = value
         
         return data
+    
+    
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True, write_only=True)
+    new_password = serializers.CharField(required=True, write_only=True)
+    confirm_password = serializers.CharField(required=True, write_only=True)
+
+    class Meta:
+        fields = ['old_password', 'new_password', 'confirm_password']

@@ -1,4 +1,4 @@
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
 
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -7,10 +7,12 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from users.models import User
+from users.permissions import isAdminOrOwner
 from users.serializers import (
     UserSerializer,
     UserSerializerWithToken,
-    SigninSerializer
+    SigninSerializer,
+    PasswordChangeSerializer,
 )
 
 
@@ -75,4 +77,51 @@ class ObserverListView(generics.ListAPIView):
         return User.objects.filter(role='Observer')
     
     
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser, isAdminOrOwner]
+    lookup_field = 'uuid'
     
+    
+class UserUpdateView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, isAdminOrOwner]
+    lookup_field = 'uuid'
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        user = self.get_object()
+        data = request.data
+        
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.bio = data.get('bio', user.bio)
+        user.role = data.get('role', user.role)
+        
+        user.save()
+        
+        serializer = self.get_serializer(user, partial=partial)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class PasswordUpdateView(generics.GenericAPIView):
+    serializer_class = PasswordChangeSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        data = request.data
+        
+        if not check_password(data['old_password'], user.password):
+            return Response({'detail': 'Old password is incorrect!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if data['new_password'] != data['confirm_password']:
+            return Response({'detail': 'New password and confirm password do not match!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user.password = make_password(data['new_password'])
+        user.save()
+        
+        return Response({'detail': 'Password updated successfully!'}, status=status.HTTP_200_OK)

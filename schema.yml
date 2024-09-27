@@ -2,7 +2,8 @@ openapi: 3.0.3
 info:
   title: SynthAIze API
   version: 1.0.0
-  description: The **SynthAIze API** is a platform for managing AI models, datasets,
+  description:
+    The **SynthAIze API** is a platform for managing AI models, datasets,
     and performance metrics with user authentication and role-based access control
     to streamline AI model deployment and evaluation.
 paths:
@@ -10,9 +11,9 @@ paths:
     get:
       operationId: api_v1_users_list
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -26,9 +27,9 @@ paths:
     get:
       operationId: api_v1_users_observers_list
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -45,7 +46,7 @@ paths:
         Takes a set of user credentials and returns an access and refresh JSON web
         token pair to prove the authentication of those credentials.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
@@ -69,7 +70,7 @@ paths:
     post:
       operationId: api_v1_users_signup_create
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
@@ -83,8 +84,8 @@ paths:
               $ref: '#/components/schemas/UserSerializerWithToken'
         required: true
       security:
-      - jwtAuth: []
-      - {}
+        - jwtAuth: []
+        - {}
       responses:
         '201':
           content:
@@ -96,9 +97,9 @@ paths:
     get:
       operationId: api_v1_users_synthesists_list
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -115,7 +116,7 @@ paths:
         Takes a refresh type JSON web token and returns an access type JSON web
         token if the refresh token is valid.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
@@ -142,7 +143,7 @@ paths:
         Takes a token and indicates if it is valid.  This view provides no
         information about a token's fitness for a particular use.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
@@ -166,9 +167,9 @@ components:
   schemas:
     RoleEnum:
       enum:
-      - Admin
-      - Synthesist
-      - Observer
+        - Admin
+        - Synthesist
+        - Observer
       type: string
       description: |-
         * `Admin` - Admin
@@ -184,8 +185,8 @@ components:
           type: string
           writeOnly: true
       required:
-      - email
-      - password
+        - email
+        - password
     TokenRefresh:
       type: object
       properties:
@@ -196,8 +197,8 @@ components:
           type: string
           writeOnly: true
       required:
-      - access
-      - refresh
+        - access
+        - refresh
     TokenVerify:
       type: object
       properties:
@@ -205,7 +206,7 @@ components:
           type: string
           writeOnly: true
       required:
-      - token
+        - token
     User:
       type: object
       properties:
@@ -227,11 +228,11 @@ components:
           type: string
           readOnly: true
       required:
-      - email
-      - isAdmin
-      - name
-      - role
-      - uuid
+        - email
+        - isAdmin
+        - name
+        - role
+        - uuid
     UserSerializerWithToken:
       type: object
       properties:
@@ -256,12 +257,12 @@ components:
           type: string
           readOnly: true
       required:
-      - email
-      - isAdmin
-      - name
-      - role
-      - token
-      - uuid
+        - email
+        - isAdmin
+        - name
+        - role
+        - token
+        - uuid
   securitySchemes:
     jwtAuth:
       type: http
