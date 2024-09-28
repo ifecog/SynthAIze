@@ -12,6 +12,7 @@ from users.views import (
     UserUpdateView,
     PasswordUpdateView,
     UserDeleteView,
+    ActivateAccountView,
 )
 
 
@@ -23,6 +24,7 @@ urlpatterns = [
     path('change-password/', PasswordUpdateView.as_view(), name='password-change'),
     # Auth
     path('signup/', SignupView.as_view(), name='signup'),
+    path('activate/<uidb64>/<token>/', ActivateAccountView.as_view(), name='activate-account'),
     path('signin/', SigninView.as_view(), name='signin'),
     # Roles
     path('synthesists/', SynthesistListView.as_view(), name='synthesists'),

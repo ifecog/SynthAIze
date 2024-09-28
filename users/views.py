@@ -1,4 +1,7 @@
 from django.contrib.auth.hashers import check_password, make_password
+from django.shortcuts import render
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
 
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -15,6 +18,7 @@ from users.serializers import (
     SigninSerializer,
     PasswordChangeSerializer,
 )
+from users.tokens import account_activation_token
 
 
 class SignupView(generics.CreateAPIView):
@@ -40,10 +44,11 @@ class SignupView(generics.CreateAPIView):
                 email=data['email'],
                 bio=data.get('bio', ''),
                 role=role,
-                password=make_password(data['password'])
+                password=make_password(data['password']),
+                is_active=False,
             )
             
-            send_welcome_email(user)
+            send_welcome_email(request, user)
             
             serializer = self.get_serializer(user)
             
@@ -53,6 +58,25 @@ class SignupView(generics.CreateAPIView):
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ActivateAccountView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        
+        if user is not None and account_activation_token.check_token(user, token):
+            print("Token is valid")
+            user.is_active = True
+            user.save()
+            return render(request, 'account_activation_success.html')
+        
+        else:
+            print("Invalid token")
+            return render(request, 'activation_invalid.html')
 
 class SigninView(TokenObtainPairView):
     serializer_class = SigninSerializer
