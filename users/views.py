@@ -165,3 +165,37 @@ class UserDeleteView(generics.DestroyAPIView):
         self.perform_destroy(user)
         
         return Response({'detail': 'User successfully deleted!'},status=status.HTTP_200_OK)
+    
+
+class DeactivateUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    
+    def patch(self, request, uuid):
+        try:
+            user = User.objects.get(uuid=uuid)
+            if not user.is_active:
+                return Response({'detail': 'User is already deactivated.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.is_active = False
+            user.save()
+            return Response({'detail': 'User has been deactivated.'}, status=status.HTTP_200_OK)
+        
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ReactivateUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    
+    def patch(self, request, uuid):
+        try:
+            user = User.objects.get(uuid=uuid)
+            if user.is_active:
+                return Response({'detail': 'User is already active.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.is_active = True
+            user.save()
+            return Response({'detail': 'User has been reactivated.'}, status=status.HTTP_200_OK)
+        
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)

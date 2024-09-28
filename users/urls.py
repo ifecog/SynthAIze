@@ -13,6 +13,8 @@ from users.views import (
     PasswordUpdateView,
     UserDeleteView,
     ActivateAccountView,
+    DeactivateUserView,
+    ReactivateUserView
 )
 
 
@@ -26,6 +28,8 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('activate/<uidb64>/<token>/', ActivateAccountView.as_view(), name='activate-account'),
     path('signin/', SigninView.as_view(), name='signin'),
+    path('<uuid:uuid>/deactivate/', DeactivateUserView.as_view(), name='deactivate-user'),
+    path('<uuid:uuid>/reactivate/', ReactivateUserView.as_view(), name='deactivate-user'),
     # Roles
     path('synthesists/', SynthesistListView.as_view(), name='synthesists'),
     path('observers/', ObserverListView.as_view(), name='observers'),
