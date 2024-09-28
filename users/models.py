@@ -21,6 +21,8 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
+    activation_token = models.CharField(max_length=64, null=True, blank=True)
+    
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

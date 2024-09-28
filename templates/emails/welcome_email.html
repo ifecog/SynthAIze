@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SynthAIze</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to SynthAIze, {{ user.first_name }}!</h1>
+        
+        <p>
+            Thank you for joining <strong>SynthAIze</strong> — your go-to platform for managing and tracking AI models and datasets! We are excited to have you onboard.
+        </p>
+        
+        <p>
+            SynthAIze offers a variety of tools designed to help developers and data scientists like you seamlessly upload, track, and manage AI models, datasets, and performance metrics. Whether you're working on a TensorFlow model or a PyTorch project, we've got you covered with version control, detailed performance dashboards, and more!
+        </p>
+
+        <p>
+            Please activate your account by clicking the button below:
+        </p>
+        
+        <a href="{{ activation_link }}" class="button">Activate Account</a>
+        
+        <p>
+            If the button doesn't work, you can use this link
+            <a href="{{ activation_link }}" style="color: blue; text-decoration: none;">Activate</a>
+        </p>
+
+        <p>
+            Here’s a brief overview of what you can do on SynthAIze:
+            <ul>
+                <li><strong>Upload AI Models:</strong> Manage your model files with ease.</li>
+                <li><strong>Track Datasets:</strong> Associate datasets with your models.</li>
+                <li><strong>Visualize Performance:</strong> Monitor metrics like accuracy and loss over time.</li>
+                <li><strong>Version Control:</strong> Keep track of model iterations and improvements.</li>
+            </ul>
+        </p>
+        
+        <p>
+            We look forward to supporting you on your AI journey. You can start exploring our platform right away by logging in and checking out our <a href="#">getting started guide</a>.
+        </p>
+
+        <p>
+            If you have any questions, feel free to reach out to our support team.
+        </p>
+
+        <a href="#" class="button">Get Started with SynthAIze</a>
+        
+        <div class="footer">
+            <p>Best regards,<br>The SynthAIze Team</p>
+        </div>
+    </div>
+</body>
+</html>
