@@ -52,8 +52,12 @@ jobs:
         run: |
           echo "DEBUG=0" >> .env
           echo "DATABASE_URL=postgres://user:password@localhost:5432/django_db" >> .env
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
       - name: Run migrations and test
         run: |
           python manage.py migrate
           python manage.py test
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
