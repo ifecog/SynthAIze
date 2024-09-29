@@ -51,7 +51,11 @@ jobs:
       - name: Set environment variables
         run: |
           echo "DEBUG=0" >> .env
-          echo "DATABASE_URL=postgres://user:password@localhost:5432/django_db" >> .env
+          echo "DEV_DB_NAME=django_db" >> .env
+          echo "DEV_DB_USER=user" >> .env
+          echo "DEV_DB_PASSWORD=password" >> .env
+          echo "DEV_DB_HOST=localhost" >> .env
+          echo "DEV_DB_PORT=5432" >> .env
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
