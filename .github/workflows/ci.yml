@@ -30,6 +30,9 @@ jobs:
           - ./tmp/data:/var/lib/postgresql/data
 
     steps:
+      - name: Clean working directory
+        run: sudo rm -rf /home/runner/work/SynthAIze/SynthAIze
+
       - name: Checkout code
         uses: actions/checkout@v3
 
