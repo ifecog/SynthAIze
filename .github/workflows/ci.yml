@@ -30,14 +30,13 @@ jobs:
           - ./tmp/data:/var/lib/postgresql/data
 
     steps:
-      - name: Clean working directory
-        run: sudo rm -rf /home/runner/work/SynthAIze/SynthAIze
-
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ''
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
