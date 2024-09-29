@@ -56,10 +56,12 @@ jobs:
           echo "DEV_DB_PASSWORD=password" >> .env
           echo "DEV_DB_HOST=localhost" >> .env
           echo "DEV_DB_PORT=5432" >> .env
-          echo "DEV_EMAIL_HOST=smtp.example.com" >> .env  # Add this line with your email host
+          echo "DEV_EMAIL_HOST=smtp.example.com" >> .env
           echo "DEV_EMAIL_PORT=587" >> .env  
           echo "DEV_EMAIL_HOST_USER=username@example.com" >> .env
+          echo "DEV_EMAIL_USE_TLS=True" >> .env
           echo "DEV_EMAIL_HOST_PASSWORD=yourpassword" >> .env
+          echo "DEV_DEFAULT_FROM_EMAIL=example@gmail.com" >> .env
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
