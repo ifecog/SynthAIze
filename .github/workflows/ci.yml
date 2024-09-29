@@ -65,6 +65,13 @@ jobs:
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U user; do
+            echo "Waiting for PostgreSQL to be available...";
+            sleep 5;
+          done
+
       - name: Run migrations and test
         run: |
           python manage.py migrate
