@@ -30,6 +30,10 @@ jobs:
           - ./tmp/data:/var/lib/postgresql/data
 
     steps:
+      - name: Remove tmp/data directory
+        run: |
+          sudo rm -rf ./tmp/data
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
