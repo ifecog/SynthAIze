@@ -16,9 +16,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: django_db
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
+          POSTGRES_DB: synthaize_dev
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Darasimi302
         ports:
           - 5432:5432
         options: >-
