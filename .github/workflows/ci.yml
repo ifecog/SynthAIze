@@ -50,9 +50,9 @@ jobs:
       - name: Set environment variables
         run: |
           echo "DEBUG=0" >> .env
-          echo "DEV_DB_NAME=django_db" >> .env
-          echo "DEV_DB_USER=user" >> .env
-          echo "DEV_DB_PASSWORD=password" >> .env
+          echo "DEV_DB_NAME=synthaize_dev" >> .env
+          echo "DEV_DB_USER=postgres" >> .env
+          echo "DEV_DB_PASSWORD=Darasimi302" >> .env
           echo "DEV_DB_HOST=localhost" >> .env
           echo "DEV_DB_PORT=5432" >> .env
           echo "DEV_EMAIL_HOST=smtp.example.com" >> .env
