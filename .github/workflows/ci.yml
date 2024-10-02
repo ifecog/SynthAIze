@@ -63,7 +63,6 @@ jobs:
           echo "DEV_DEFAULT_FROM_EMAIL=example@gmail.com" >> .env
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          # test
 
       - name: Run migrations and test
         run: |
