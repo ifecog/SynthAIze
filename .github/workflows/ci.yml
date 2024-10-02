@@ -65,10 +65,6 @@ jobs:
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
-      - name: Load environment variables
-        run: |
-          python-dotenv load .env
-
       - name: Run migrations and test
         run: |
           python manage.py migrate
